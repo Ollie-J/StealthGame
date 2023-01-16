@@ -1,0 +1,92 @@
+Begin Object Class=/Script/Engine.MapBuildDataRegistry Name="MainLevel_BuiltData"
+   Begin Object Class=/Script/Engine.LightMapTexture2D Name="HQ_Lightmap1_1"
+      Begin Object Class=/Script/Engine.AssetImportData Name="AssetImportData"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.LightMapTexture2D Name="HQ_Lightmap1_2"
+      Begin Object Class=/Script/Engine.AssetImportData Name="AssetImportData"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.LightMapTexture2D Name="LQ_Lightmap_1_1"
+      Begin Object Class=/Script/Engine.AssetImportData Name="AssetImportData"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.LightMapTexture2D Name="LQ_Lightmap_1_2"
+      Begin Object Class=/Script/Engine.AssetImportData Name="AssetImportData"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.TextureCube Name="NewReflectionComponentTextureAD04A93A4C8ACE67440ED09496846FBA"
+      Begin Object Class=/Script/Engine.AssetImportData Name="AssetImportData"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.ShadowMapTexture2D Name="ShadowMapTexture2D_0"
+      Begin Object Class=/Script/Engine.AssetImportData Name="AssetImportData"
+      End Object
+   End Object
+   Begin Object Name="HQ_Lightmap1_1"
+      Begin Object Name="AssetImportData"
+      End Object
+      ImportedSize=(X=2048,Y=2048)
+      Source=(Id=1F8D4B9849E302A30B7FCEACD9741C31,SizeX=2048,SizeY=2048,NumSlices=1,NumMips=12,Format=TSF_BGRA8,LayerFormat=(TSF_BGRA8))
+      AssetImportData=AssetImportData'"AssetImportData"'
+      bForcePVRTC4=True
+      MipGenSettings=TMGS_LeaveExistingMips
+      SRGB=False
+   End Object
+   Begin Object Name="HQ_Lightmap1_2"
+      Begin Object Name="AssetImportData"
+      End Object
+      ImportedSize=(X=1024,Y=1024)
+      Source=(Id=E3C6328F413D801B1E5FD6A535EF9B4B,SizeX=1024,SizeY=1024,NumSlices=1,NumMips=11,Format=TSF_BGRA8,LayerFormat=(TSF_BGRA8))
+      AssetImportData=AssetImportData'"AssetImportData"'
+      bForcePVRTC4=True
+      MipGenSettings=TMGS_LeaveExistingMips
+      SRGB=False
+   End Object
+   Begin Object Name="LQ_Lightmap_1_1"
+      Begin Object Name="AssetImportData"
+      End Object
+      ImportedSize=(X=2048,Y=2048)
+      Source=(Id=9701BCDE488AF0C5966E9D9F9A734CA7,SizeX=2048,SizeY=2048,NumSlices=1,NumMips=12,Format=TSF_BGRA8,LayerFormat=(TSF_BGRA8))
+      AssetImportData=AssetImportData'"AssetImportData"'
+      CompressionNoAlpha=True
+      bForcePVRTC4=True
+      MipGenSettings=TMGS_LeaveExistingMips
+      SRGB=False
+   End Object
+   Begin Object Name="LQ_Lightmap_1_2"
+      Begin Object Name="AssetImportData"
+      End Object
+      ImportedSize=(X=1024,Y=1024)
+      Source=(Id=CC874DD74CF35F80D88E51A2C9CAB021,SizeX=1024,SizeY=1024,NumSlices=1,NumMips=11,Format=TSF_BGRA8,LayerFormat=(TSF_BGRA8))
+      AssetImportData=AssetImportData'"AssetImportData"'
+      CompressionNoAlpha=True
+      bForcePVRTC4=True
+      MipGenSettings=TMGS_LeaveExistingMips
+      SRGB=False
+   End Object
+   Begin Object Name="NewReflectionComponentTextureAD04A93A4C8ACE67440ED09496846FBA"
+      Begin Object Name="AssetImportData"
+      End Object
+      Source=(Id=9A98028546DDAC4872A01CB437AF0895,SizeX=128,SizeY=128,NumSlices=6,NumMips=8,Format=TSF_BGRA8,LayerFormat=(TSF_BGRA8))
+      AssetImportData=AssetImportData'"AssetImportData"'
+      CompressionNone=True
+      CompressionQuality=TCQ_Highest
+      MipGenSettings=TMGS_LeaveExistingMips
+      CompressionSettings=TC_EncodedReflectionCapture
+      Filter=TF_Trilinear
+      SRGB=False
+   End Object
+   Begin Object Name="ShadowMapTexture2D_0"
+      Begin Object Name="AssetImportData"
+      End Object
+      ShadowmapFlags=SMF_Streamed
+      ImportedSize=(X=2048,Y=2048)
+      Source=(Id=65F4D2CF4945E7CE6F379EBE2405E7FB,SizeX=2048,SizeY=2048,NumSlices=1,NumMips=12,Format=TSF_BGRA8,LayerFormat=(TSF_BGRA8))
+      AssetImportData=AssetImportData'"AssetImportData"'
+      CompressionNone=True
+      MipGenSettings=TMGS_LeaveExistingMips
+      SRGB=False
+   End Object
+   LevelLightingQuality=Quality_Preview
+End Object
