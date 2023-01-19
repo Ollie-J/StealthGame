@@ -17,7 +17,8 @@ public:
 	// Sets default values for this character's properties
 	AStealthCharacter();
 
-	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
+		float TurnRate;
 
 	
 
@@ -33,26 +34,27 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	void MoveForward(float InputAxis);
+	void MoveF(float InputAxis);
 
-	void Turn(float InputAxis);
+	void MoveR(float Value);
 
+	void CamHoriRotation(float Rate);
+
+	
+
+	/*
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera", meta = (AllowPrivateAccess = true))
 		class USpringArmComponent* CameraArm;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera", meta = (AllowPrivateAccess = true))
 		class UCameraComponent* TPCamera;
+	*/
+	
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayerMesh")
 		UStaticMeshComponent* StaticMesh;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayerMesh")
-		float TurnAmount;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayerMesh")
-		float WalkSpeed = 125.0f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayerMesh")
-		float RunSpeed = 500.0f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Speed")
+		float Speed;
 
 };
