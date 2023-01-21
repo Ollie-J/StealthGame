@@ -20,7 +20,8 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
 		float TurnRate;
 
-	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
+		float LookUpRate;
 
 
 protected:
@@ -34,21 +35,31 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	void MoveF(float InputAxis);
+	void MoveF(float Value);
 
 	void MoveR(float Value);
 
 	void CamHoriRotation(float Rate);
 
+	void CamVertRotation(float Value);
+
+	void Jumping();
+
+	void NoJump();
+
+	void NightVision();
+
+	void NormalVision();
+	
 	
 
-	/*
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera", meta = (AllowPrivateAccess = true))
 		class USpringArmComponent* CameraArm;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera", meta = (AllowPrivateAccess = true))
 		class UCameraComponent* TPCamera;
-	*/
+	
 	
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayerMesh")
@@ -56,5 +67,8 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Speed")
 		float Speed;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "NightV")
+		 struct FPostProcessSettings NVS;
 
 };
