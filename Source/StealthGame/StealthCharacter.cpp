@@ -82,6 +82,8 @@ void AStealthCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &AStealthCharacter::NoJump);
 	PlayerInputComponent->BindAction("NVOn", IE_Pressed, this, &AStealthCharacter::NightVision);
 	PlayerInputComponent->BindAction("NVOn", IE_Released, this, &AStealthCharacter::NormalVision);
+	PlayerInputComponent->BindAction("Crouch", IE_Pressed, this, &AStealthCharacter::CanCrouch);
+	PlayerInputComponent->BindAction("Crouch", IE_Released, this, &AStealthCharacter::StopCrouch);
 }
 
 void AStealthCharacter::MoveF(float Value)
@@ -166,5 +168,16 @@ void AStealthCharacter::NormalVision()
 	NVS.bOverride_ColorGamma = false;
 	TPCamera->PostProcessSettings = NVS;
 	return;
+}
+
+void AStealthCharacter::CanCrouch()
+{
+	GetCharacterMovement()->IsCrouching();
+	Crouch();
+}
+
+void AStealthCharacter::StopCrouch()
+{
+	UnCrouch();
 }
 

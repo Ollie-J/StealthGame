@@ -50,6 +50,10 @@ public:
 	void NightVision();
 
 	void NormalVision();
+
+	void CanCrouch();
+
+	void StopCrouch();
 	
 	
 
