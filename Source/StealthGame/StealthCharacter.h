@@ -23,6 +23,12 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
 		float LookUpRate;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Speed")
+		float SprintSpeedMultiplier;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Speed")
+		bool bNVOn;
+
 
 protected:
 	// Called when the game starts or when spawned
@@ -51,27 +57,29 @@ public:
 
 	void NormalVision();
 
+	void NightVisionOn();
+
+	void NightVisionOff();
+
 	void CanCrouch();
-
-	void StopCrouch();
 	
-	
+	void Sprinting();
 
+	void StopSprinting();
+	
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera", meta = (AllowPrivateAccess = true))
 		class USpringArmComponent* CameraArm;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera", meta = (AllowPrivateAccess = true))
 		class UCameraComponent* TPCamera;
-	
-	
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayerMesh")
 		UStaticMeshComponent* StaticMesh;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Speed")
 		float Speed;
-
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "NightV")
 		 struct FPostProcessSettings NVS;
 

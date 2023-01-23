@@ -14,13 +14,18 @@ AStealthCharacter::AStealthCharacter()
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationRoll = false;
-	Speed = 0.0f;
+	bNVOn = false;
+	Speed = 300.0f;
+	SprintSpeedMultiplier = 2.0f;
 	TurnRate = 45.0f;
 	LookUpRate = 45.0f;
-	
-	
+
 	GetCharacterMovement()->bOrientRotationToMovement = true; // Character moves in the direction of input...	
 	GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.0f, 0.0f); // ...at this rotation rate
+	GetCharacterMovement()->MaxWalkSpeed = Speed;
+	GetCharacterMovement()->MaxWalkSpeedCrouched = 150.0f;
+	GetCharacterMovement()->CrouchedHalfHeight = 20.0f;
+	GetCharacterMovement()->bCanWalkOffLedgesWhenCrouching = true;
 
 	//PlayerMesh
 	StaticMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PlayerMesh"));
@@ -52,6 +57,7 @@ void AStealthCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	
 }
 
 // Called every frame
@@ -81,9 +87,12 @@ void AStealthCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AStealthCharacter::Jumping);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &AStealthCharacter::NoJump);
 	PlayerInputComponent->BindAction("NVOn", IE_Pressed, this, &AStealthCharacter::NightVision);
-	PlayerInputComponent->BindAction("NVOn", IE_Released, this, &AStealthCharacter::NormalVision);
+	//PlayerInputComponent->BindAction("NVOn", IE_Released, this, &AStealthCharacter::NormalVision);
+
+
 	PlayerInputComponent->BindAction("Crouch", IE_Pressed, this, &AStealthCharacter::CanCrouch);
-	PlayerInputComponent->BindAction("Crouch", IE_Released, this, &AStealthCharacter::StopCrouch);
+	PlayerInputComponent->BindAction("Sprinting", IE_Pressed, this, &AStealthCharacter::Sprinting);
+	PlayerInputComponent->BindAction("Sprinting", IE_Released, this, &AStealthCharacter::StopSprinting);
 }
 
 void AStealthCharacter::MoveF(float Value)
@@ -146,10 +155,24 @@ void AStealthCharacter::NoJump()
 void AStealthCharacter::NightVision()
 {
 	
-	//FPostProcessSettings NVS;
+	if (bNVOn) {
+		NightVisionOff();
+	}
+	else
+	{
+		NightVisionOn();
+	}
+}
+
+
+
+void AStealthCharacter::NightVisionOn()
+{
+	bNVOn = true;
 	NVS.bOverride_BloomIntensity = true;
 	NVS.BloomIntensity = 20.0f;
 	NVS.VignetteIntensity = 1.0f;
+	NVS.AutoExposureBias = 3.0f;
 	static const FLinearColor NVC = FLinearColor(0.0f, 255.0f, 0.0f);
 	NVS.bOverride_LensFlareTint = true;
 	NVS.LensFlareTint = NVC;
@@ -158,12 +181,14 @@ void AStealthCharacter::NightVision()
 	return;
 }
 
-void AStealthCharacter::NormalVision()
+void AStealthCharacter::NightVisionOff()
 {
+	bNVOn = false;
 	//FPostProcessSettings NVS;
 	NVS.bOverride_BloomIntensity = true;
 	NVS.BloomIntensity = 0.0f;
 	NVS.VignetteIntensity = 0.0f;
+	NVS.AutoExposureBias = 0.5f;
 	NVS.bOverride_LensFlareTint = false;
 	NVS.bOverride_ColorGamma = false;
 	TPCamera->PostProcessSettings = NVS;
@@ -172,12 +197,24 @@ void AStealthCharacter::NormalVision()
 
 void AStealthCharacter::CanCrouch()
 {
-	GetCharacterMovement()->IsCrouching();
-	Crouch();
+	if (bIsCrouched) {
+		UnCrouch();
+	}
+	else
+	{
+		Crouch();
+	}
 }
 
-void AStealthCharacter::StopCrouch()
+
+void AStealthCharacter::Sprinting()
 {
-	UnCrouch();
+
+	GetCharacterMovement()->MaxWalkSpeed *= SprintSpeedMultiplier;
+}
+
+void AStealthCharacter::StopSprinting()
+{
+	GetCharacterMovement()->MaxWalkSpeed /= SprintSpeedMultiplier;
 }
 
