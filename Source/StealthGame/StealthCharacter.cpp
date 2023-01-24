@@ -20,18 +20,19 @@ AStealthCharacter::AStealthCharacter()
 	TurnRate = 45.0f;
 	LookUpRate = 45.0f;
 
-	GetCharacterMovement()->bOrientRotationToMovement = true; // Character moves in the direction of input...	
-	GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.0f, 0.0f); // ...at this rotation rate
+	// SETTING PROPERTIES WITHIN THE CHAR MOVEMENT // 
+	GetCharacterMovement()->bOrientRotationToMovement = true;
+	GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.0f, 0.0f); 
 	GetCharacterMovement()->MaxWalkSpeed = Speed;
 	GetCharacterMovement()->MaxWalkSpeedCrouched = 150.0f;
 	GetCharacterMovement()->CrouchedHalfHeight = 20.0f;
 	GetCharacterMovement()->bCanWalkOffLedgesWhenCrouching = true;
 
-	//PlayerMesh
+	//PlayerMesh 
+	/*GET RID OF THiS AS THER IS ALREADY A SKELETAL MESH I AM USING*/
 	StaticMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PlayerMesh"));
 	StaticMesh->SetupAttachment(RootComponent);
 
-	
 	//Camera Arm
 	CameraArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
 	CameraArm->SetupAttachment(RootComponent);
@@ -39,16 +40,10 @@ AStealthCharacter::AStealthCharacter()
 	CameraArm->TargetOffset = FVector(0.f, 000.f, 100.f);
 	CameraArm->bUsePawnControlRotation = true;
 	
-
 	//Camera
 	TPCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("Third-Person-Camera"));
 	TPCamera->SetupAttachment(CameraArm, USpringArmComponent::SocketName);
 	TPCamera->bUsePawnControlRotation = false;
-	
-
-	
-	
-	
 	
 }
 
@@ -56,7 +51,6 @@ AStealthCharacter::AStealthCharacter()
 void AStealthCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
 	
 }
 
@@ -87,9 +81,6 @@ void AStealthCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AStealthCharacter::Jumping);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &AStealthCharacter::NoJump);
 	PlayerInputComponent->BindAction("NVOn", IE_Pressed, this, &AStealthCharacter::NightVision);
-	//PlayerInputComponent->BindAction("NVOn", IE_Released, this, &AStealthCharacter::NormalVision);
-
-
 	PlayerInputComponent->BindAction("Crouch", IE_Pressed, this, &AStealthCharacter::CanCrouch);
 	PlayerInputComponent->BindAction("Sprinting", IE_Pressed, this, &AStealthCharacter::Sprinting);
 	PlayerInputComponent->BindAction("Sprinting", IE_Released, this, &AStealthCharacter::StopSprinting);
@@ -145,6 +136,7 @@ void AStealthCharacter::CamVertRotation(float Value)
 void AStealthCharacter::Jumping()
 {
 	Jump();
+	
 }
 
 void AStealthCharacter::NoJump()
@@ -164,8 +156,6 @@ void AStealthCharacter::NightVision()
 	}
 }
 
-
-
 void AStealthCharacter::NightVisionOn()
 {
 	bNVOn = true;
@@ -184,7 +174,6 @@ void AStealthCharacter::NightVisionOn()
 void AStealthCharacter::NightVisionOff()
 {
 	bNVOn = false;
-	//FPostProcessSettings NVS;
 	NVS.bOverride_BloomIntensity = true;
 	NVS.BloomIntensity = 0.0f;
 	NVS.VignetteIntensity = 0.0f;
@@ -205,7 +194,6 @@ void AStealthCharacter::CanCrouch()
 		Crouch();
 	}
 }
-
 
 void AStealthCharacter::Sprinting()
 {
