@@ -58,7 +58,7 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-		// Player Movement //
+	// Player Movement //
 	void MoveF(float Value);
 	void MoveR(float Value);
 	void CanCrouch();
@@ -66,22 +66,15 @@ public:
 	void StopSprinting();
 	void Jumping();
 	void NoJump();
-
-
-	void CamHoriRotation(float Rate);
-
-	void CamVertRotation(float Value);
+	//Camera Rotation //
+		void CamHoriRotation(float Rate);
+		void CamVertRotation(float Value);
+			//Night Vision Effect //
+			void NightVision();
+			void NightVisionOn();
+			void NightVisionOff();
 
 	
-
-	void NightVision();
-
-	void NormalVision();
-
-	void NightVisionOn();
-
-	void NightVisionOff();
-
 	
 	
 
