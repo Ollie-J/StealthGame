@@ -1,14 +1,16 @@
 #include "StealthCharacter.h"
 #include "Engine/Scene.h"
 #include "Math/Color.h"
+#include "UObject/UObjectBase.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Components/InputComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "Door.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "DrawDebugHelpers.h"
 
 
-
-// Sets default values
 AStealthCharacter::AStealthCharacter()
 {
 	bUseControllerRotationPitch = false;
@@ -28,11 +30,6 @@ AStealthCharacter::AStealthCharacter()
 	GetCharacterMovement()->CrouchedHalfHeight = 20.0f;
 	GetCharacterMovement()->bCanWalkOffLedgesWhenCrouching = true;
 
-	//PlayerMesh 
-	/*GET RID OF THiS AS THER IS ALREADY A SKELETAL MESH I AM USING*/
-	StaticMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PlayerMesh"));
-	StaticMesh->SetupAttachment(RootComponent);
-
 	//Camera Arm
 	CameraArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
 	CameraArm->SetupAttachment(RootComponent);
@@ -45,6 +42,7 @@ AStealthCharacter::AStealthCharacter()
 	TPCamera->SetupAttachment(CameraArm, USpringArmComponent::SocketName);
 	TPCamera->bUsePawnControlRotation = false;
 	
+
 }
 
 // Called when the game starts or when spawned
@@ -52,6 +50,7 @@ void AStealthCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
+
 }
 
 // Called every frame
@@ -84,6 +83,7 @@ void AStealthCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	PlayerInputComponent->BindAction("Crouch", IE_Pressed, this, &AStealthCharacter::CanCrouch);
 	PlayerInputComponent->BindAction("Sprinting", IE_Pressed, this, &AStealthCharacter::Sprinting);
 	PlayerInputComponent->BindAction("Sprinting", IE_Released, this, &AStealthCharacter::StopSprinting);
+	PlayerInputComponent->BindAction("OpeningDoor", IE_Pressed, this, &AStealthCharacter::OnAction);
 }
 
 void AStealthCharacter::MoveF(float Value)
@@ -206,3 +206,18 @@ void AStealthCharacter::StopSprinting()
 	GetCharacterMovement()->MaxWalkSpeed /= SprintSpeedMultiplier;
 }
 
+void AStealthCharacter::OnAction()
+{
+	if (TPCamera == nullptr) return;
+
+	FHitResult HitResult;
+	FVector Start = TPCamera->GetComponentLocation();
+	FVector End = Start + TPCamera->GetForwardVector() * LineTraceCamera;
+	GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECollisionChannel::ECC_Visibility);
+
+	ADoor* Door = Cast<ADoor>(HitResult.GetActor());
+	if (Door) {
+		Door->OnInteract();
+	}
+}
+	

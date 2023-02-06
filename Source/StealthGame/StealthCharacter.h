@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Door.h"
+#include "UObject/UObjectBase.h"
 #include "StealthCharacter.generated.h"
 
 UCLASS()
@@ -24,10 +26,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera", meta = (AllowPrivateAccess = true))
 		class UCameraComponent* TPCamera;
 
-	/*DELTE THE STATIC MESH AS THE BP ALREADY HAS A SKELETAL MESH*/
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "PlayerMesh")
-		UStaticMeshComponent* StaticMesh;
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player Movement")
 		float Speed;
 
@@ -46,7 +44,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Night Vision")
 		bool bNVOn;
 
-
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LineTracer")
+		float LineTraceCamera = 750.f;
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -66,7 +65,7 @@ public:
 	void StopSprinting();
 	void Jumping();
 	void NoJump();
-
+	void OnAction();
 
 	void CamHoriRotation(float Rate);
 
@@ -75,8 +74,6 @@ public:
 	
 
 	void NightVision();
-
-	void NormalVision();
 
 	void NightVisionOn();
 
