@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "Components/TimelineComponent.h"
-#include "Components/BoxComponent.h"
 #include "GameFramework/Actor.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
@@ -31,6 +30,18 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	
+	FTimeline Timeline;
+	bool bIsDoorClosed = true;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CurveFloat")
+		UCurveFloat* CurveFloat;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "DoorRotation")
+		float DoorRotateAngle = 90.0f;
+
+	UFUNCTION()
+		void OpenDoor(float Value);
 
 public:	
 	// Called every frame

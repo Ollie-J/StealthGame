@@ -26,6 +26,11 @@ void ADoor::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	if (CurveFloat) {
+		FOnTimelineFloat TimelineProgress;
+		TimelineProgress.BindDynamic(this, &ADoor::OpenDoor);
+		Timeline.AddInterpFloat(CurveFloat, TimelineProgress);
+	}
 	
 }
 
@@ -34,10 +39,26 @@ void ADoor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	
+	Timeline.TickTimeline(DeltaTime);
 }
 
 void ADoor::OnInteract() 
 {
 	UE_LOG(LogTemp, Display, TEXT("INTERACTED WITH THE DOOR"));
+
+	if (bIsDoorClosed) {
+		Timeline.Play(); //opens the door
+	}
+	else
+	{
+		Timeline.Reverse(); //closes the door
+	}
+	bIsDoorClosed = !bIsDoorClosed; //flip flop
+}
+
+void ADoor::OpenDoor(float Value) 
+{
+	FRotator Rot = FRotator(0.0f, DoorRotateAngle * Value, 0.0f);
+
+	DoorMesh->SetRelativeRotation(Rot);
 }
