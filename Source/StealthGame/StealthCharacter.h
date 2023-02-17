@@ -16,18 +16,20 @@ class STEALTHGAME_API AStealthCharacter : public ACharacter
 		
 
 public:
-	// Sets default values for this character's properties
+	
 	AStealthCharacter();
 
-
+	//Third Person Camera //
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera", meta = (AllowPrivateAccess = true))
 		class USpringArmComponent* CameraArm;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera", meta = (AllowPrivateAccess = true))
 		class UCameraComponent* TPCamera;
 
+	// Character Movement //
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player Movement")
 		float Speed;
+
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Player Movement")
 		float TurnRate;
@@ -46,6 +48,8 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LineTracer")
 		float LineTraceCamera = 750.f;
+
+	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -67,16 +71,15 @@ public:
 	void NoJump();
 	void OnAction();
 
+	//CAMERA FUNCTIONS//
+	
 	void CamHoriRotation(float Rate);
-
 	void CamVertRotation(float Value);
 
 	
-
+	//NIGHT VISION//
 	void NightVision();
-
 	void NightVisionOn();
-
 	void NightVisionOff();
 
 	

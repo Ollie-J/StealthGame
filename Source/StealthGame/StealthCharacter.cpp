@@ -30,17 +30,21 @@ AStealthCharacter::AStealthCharacter()
 	GetCharacterMovement()->CrouchedHalfHeight = 20.0f;
 	GetCharacterMovement()->bCanWalkOffLedgesWhenCrouching = true;
 
-	//Camera Arm
+	//Camera Arm TP
 	CameraArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
 	CameraArm->SetupAttachment(RootComponent);
 	CameraArm->TargetArmLength = 300.f;
-	CameraArm->TargetOffset = FVector(0.f, 000.f, 100.f);
+	CameraArm->TargetOffset = FVector(0.f, 0.0f, 100.f);
 	CameraArm->bUsePawnControlRotation = true;
-	
-	//Camera
+
+	//Camera Third Person
 	TPCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("Third-Person-Camera"));
 	TPCamera->SetupAttachment(CameraArm, USpringArmComponent::SocketName);
 	TPCamera->bUsePawnControlRotation = false;
+
+	 
+	
+	
 	
 
 }
@@ -84,6 +88,8 @@ void AStealthCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	PlayerInputComponent->BindAction("Sprinting", IE_Pressed, this, &AStealthCharacter::Sprinting);
 	PlayerInputComponent->BindAction("Sprinting", IE_Released, this, &AStealthCharacter::StopSprinting);
 	PlayerInputComponent->BindAction("OpeningDoor", IE_Pressed, this, &AStealthCharacter::OnAction);
+
+	
 }
 
 void AStealthCharacter::MoveF(float Value)
@@ -114,6 +120,8 @@ void AStealthCharacter::MoveR(float Value)
 		AddMovementInput(Direction, Value);
 	}
 }
+
+
 
 void AStealthCharacter::CamHoriRotation(float Rate)
 {
