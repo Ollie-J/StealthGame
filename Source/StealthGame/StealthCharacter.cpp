@@ -1,4 +1,3 @@
-#include "StealthCharacter.h"
 #include "Engine/Scene.h"
 #include "Math/Color.h"
 #include "UObject/UObjectBase.h"
@@ -28,7 +27,8 @@ AStealthCharacter::AStealthCharacter()
 	GetCharacterMovement()->MaxWalkSpeed = Speed;
 	GetCharacterMovement()->MaxWalkSpeedCrouched = 150.0f;
 	GetCharacterMovement()->CrouchedHalfHeight = 20.0f;
-	GetCharacterMovement()->bCanWalkOffLedgesWhenCrouching = true;
+	GetCharacterMovement()->bCanWalkOffLedges = true;
+	//GetCharacterMovement()->bCanWalkOffLedgesWhenCrouching = true;
 
 	//Camera Arm TP
 	CameraArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
