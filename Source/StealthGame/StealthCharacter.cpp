@@ -8,7 +8,7 @@
 #include "Door.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "DrawDebugHelpers.h"
-
+#include "StealthCharacter.h"
 
 AStealthCharacter::AStealthCharacter()
 {
