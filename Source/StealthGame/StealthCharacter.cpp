@@ -168,8 +168,8 @@ void AStealthCharacter::NightVisionOn()
 {
 	bNVOn = true;
 	NVS.bOverride_BloomIntensity = true;
-	NVS.BloomIntensity = 20.0f;
-	NVS.VignetteIntensity = 1.0f;
+	NVS.BloomIntensity = 20.0f; //set to 20
+	NVS.VignetteIntensity = 1.0f; //set to 1
 	NVS.AutoExposureBias = 3.0f;
 	static const FLinearColor NVC = FLinearColor(0.0f, 255.0f, 0.0f);
 	NVS.bOverride_LensFlareTint = true;
