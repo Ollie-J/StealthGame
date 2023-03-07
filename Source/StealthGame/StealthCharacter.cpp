@@ -1,3 +1,4 @@
+#include "StealthCharacter.h"
 #include "Engine/Scene.h"
 #include "Math/Color.h"
 #include "UObject/UObjectBase.h"
@@ -8,7 +9,6 @@
 #include "Door.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "DrawDebugHelpers.h"
-#include "StealthCharacter.h"
 
 AStealthCharacter::AStealthCharacter()
 {
@@ -172,8 +172,8 @@ void AStealthCharacter::NightVisionOn()
 	NVS.VignetteIntensity = 1.0f; //set to 1
 	NVS.AutoExposureBias = 3.0f;
 	static const FLinearColor NVC = FLinearColor(0.0f, 255.0f, 0.0f);
-	NVS.bOverride_LensFlareTint = true;
-	NVS.LensFlareTint = NVC;
+	NVS.bOverride_LensFlareTint = false;
+	//NVS.LensFlareTint = NVC;
 	NVS.bOverride_ColorGamma = true;
 	TPCamera->PostProcessSettings = NVS;
 	return;
@@ -186,7 +186,6 @@ void AStealthCharacter::NightVisionOff()
 	NVS.BloomIntensity = 0.0f;
 	NVS.VignetteIntensity = 0.0f;
 	NVS.AutoExposureBias = 0.5f;
-	NVS.bOverride_LensFlareTint = false;
 	NVS.bOverride_ColorGamma = false;
 	TPCamera->PostProcessSettings = NVS;
 	return;

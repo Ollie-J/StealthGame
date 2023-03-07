@@ -1,5 +1,6 @@
-#include "GameFramework/CharacterMovementComponent.h"
 #include "AICharacter.h"
+#include "GameFramework/CharacterMovementComponent.h"
+
 
 
 AAICharacter::AAICharacter()
