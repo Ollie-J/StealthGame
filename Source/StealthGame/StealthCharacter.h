@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "CharAnimInstance.h"
 #include "Door.h"
 #include "UObject/UObjectBase.h"
 #include "StealthCharacter.generated.h"
