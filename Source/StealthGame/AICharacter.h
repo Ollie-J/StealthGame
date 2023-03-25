@@ -15,13 +15,13 @@ public:
 	
 	AAICharacter();
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AIMovementSpeed")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AIMovementSpeed", meta = (ExposeOnSpawn = "true"))
 		float DefaultSpeed;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AIMovementSpeed")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AIMovementSpeed", meta = (ExposeOnSpawn = "true"))
 		float ChaseSpeed;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AIMovementSpeed")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AIMovementSpeed", meta = (ExposeOnSpawn = "true"))
 		float PatrolSpeed;
 
 protected:

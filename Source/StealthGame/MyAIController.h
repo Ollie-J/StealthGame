@@ -16,6 +16,9 @@ class STEALTHGAME_API AMyAIController : public AAIController
 public:
 	AMyAIController();
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Array")
+		TArray<AActor*> PActor;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "BehaviourTree")
 		class UBehaviorTree* BTree1;
 
@@ -37,17 +40,31 @@ public:
 	UPROPERTY(visibleAnywhere, BlueprintReadWrite, Category = "AI")
 		class UAISenseConfig_Sight* SightConfig;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI")
+		FName HasSight;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI")
+		float Time;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI")
+		FTimerHandle AITimer;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI")
+		float HasSightTimer;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI")
+		FName AIActor;
+
 protected:
 	virtual void BeginPlay() override;
 
 public:
-	
+
 	virtual void OnPossess(APawn* MyPawn) override;
 
 	virtual void Tick(float DeltaSeconds) override;
 
 	 virtual FRotator GetControlRotation() const override;
 
-	UFUNCTION()
-		void OnPawnDetection(const TArray<AActor*> &DetectedPawns);
+	
 };
