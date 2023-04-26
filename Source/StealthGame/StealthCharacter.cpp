@@ -4,9 +4,10 @@
 #include "UObject/UObjectBase.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
+#include "Components/SpotLightComponent.h"
 #include "Components/InputComponent.h"
 #include "Kismet/GameplayStatics.h"
-#include "Engine/SkeletalMeshSocket.h" //
+#include "Engine/SkeletalMeshSocket.h" 
 #include "CharAnimInstance.h"
 #include "Door.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -52,8 +53,15 @@ AStealthCharacter::AStealthCharacter()
 	Muzzle = CreateDefaultSubobject<USceneComponent>(TEXT("Muzzle"));
 	Muzzle->SetupAttachment(Pistol);
 	
-	
-	
+	LaserPointer = CreateDefaultSubobject<USpotLightComponent>(TEXT("Laser"));
+	LaserPointer->Intensity = 100000.0f;
+	LaserPointer->AttenuationRadius = 1205.676636f;
+	LaserPointer->InnerConeAngle = 0.5f;
+	LaserPointer->OuterConeAngle = 0.5f;
+	LaserPointer->SourceRadius = 0.0f;
+	LaserPointer->SoftSourceRadius = 0.0f;
+	LaserPointer->SourceLength = 1.0f;
+	//LaserPointer->SetupAttachment(Pistol);
 
 	
 	
@@ -104,8 +112,8 @@ void AStealthCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	
 	PlayerInputComponent->BindAction("Aim", IE_Pressed, this, &AStealthCharacter::Aiming);
 	PlayerInputComponent->BindAction("Aim", IE_Released, this, &AStealthCharacter::StopAiming);
-	
-	
+	PlayerInputComponent->BindAction("Shoot", IE_Pressed, this, &AStealthCharacter::Fire);
+	PlayerInputComponent->BindAction("Shoot", IE_Released, this, &AStealthCharacter::StopFire);
 }
 
 void AStealthCharacter::MoveF(float Value)
@@ -252,6 +260,7 @@ void AStealthCharacter::Aiming() {
 	UCharAnimInstance* Combat = Cast<UCharAnimInstance>(GetMesh()->GetAnimInstance());
 	if (!Combat) return;
 	Combat->bInCombat = true;
+	GetMovementComponent()->CanEverCrouch();
 
 }
 
@@ -260,4 +269,18 @@ void AStealthCharacter::StopAiming() {
 	UCharAnimInstance* Combat = Cast<UCharAnimInstance>(GetMesh()->GetAnimInstance());
 	if (!Combat) return;
 	Combat->bInCombat = false;
+}
+
+void AStealthCharacter::Fire() {
+	if (!GetMesh()) return;
+	UCharAnimInstance* FireAnim = Cast<UCharAnimInstance>(GetMesh()->GetAnimInstance());
+	if (!FireAnim) return;
+	FireAnim->bisAttack = true;
+}
+
+void AStealthCharacter::StopFire() {
+	if (!GetMesh()) return;
+	UCharAnimInstance* FireAnim = Cast<UCharAnimInstance>(GetMesh()->GetAnimInstance());
+	if (!FireAnim) return;
+	FireAnim->bisAttack = false;
 }

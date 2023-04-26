@@ -39,4 +39,5 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Movement")
 		bool bInCombat;
+
 };

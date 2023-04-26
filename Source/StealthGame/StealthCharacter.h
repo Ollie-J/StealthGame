@@ -18,6 +18,9 @@ public:
 	
 	AStealthCharacter();
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Laser")
+		class USpotLightComponent* LaserPointer;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pistol")
 		USkeletalMeshComponent* Pistol;
 
@@ -71,7 +74,7 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-		// Player Movement //
+	// Player Movement //
 	void MoveF(float Value);
 	void MoveR(float Value);
 	void CanCrouch();
@@ -82,7 +85,6 @@ public:
 	void OnAction();
 
 	//CAMERA FUNCTIONS//
-	
 	void CamHoriRotation(float Rate);
 	void CamVertRotation(float Value);
 
@@ -92,6 +94,9 @@ public:
 	void NightVisionOn();
 	void NightVisionOff();
 
+	//Weapon
 	void Aiming();
 	void StopAiming();
+	void Fire();
+	void StopFire();
 };
