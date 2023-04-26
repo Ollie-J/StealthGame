@@ -2,6 +2,7 @@
 
 
 #include "WeaponActor.h"
+#include "StealthCharacter.h"
 
 // Sets default values
 AWeaponActor::AWeaponActor()
@@ -11,14 +12,17 @@ AWeaponActor::AWeaponActor()
 
 
 	Weapon = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("GUN"));
-	Weapon->SetupAttachment(RootComponent);
 	RootComponent = Weapon;
-
-	Attachment01 = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Attachment"));
+	
+	Attachment01 = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Attachment"));
 	Attachment01->SetupAttachment(Weapon);
+	bIsGun = true;
 
-	//Attachment02 = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Attachment"));
-	//Attachment02->SetupAttachment(Weapon);
+	Muzzle = CreateDefaultSubobject<USceneComponent>(TEXT("MuzzleLocation"));
+	Muzzle->SetupAttachment(Weapon);
+	Muzzle->SetRelativeLocation(FVector(0.2f, 48.4f, -10.6f));
+
+	bInCombat = false;
 }
 
 // Called when the game starts or when spawned

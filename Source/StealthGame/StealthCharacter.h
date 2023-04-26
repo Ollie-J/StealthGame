@@ -18,6 +18,12 @@ public:
 	
 	AStealthCharacter();
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pistol")
+		USkeletalMeshComponent* Pistol;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pistol")
+		USceneComponent* Muzzle;
+
 	//Third Person Camera //
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera", meta = (AllowPrivateAccess = true))
 		class USpringArmComponent* CameraArm;
@@ -47,6 +53,11 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "LineTracer")
 		float LineTraceCamera = 750.f;
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "aiming")
+		bool bIsAiming;
+	
 
 	
 protected:
@@ -81,7 +92,6 @@ public:
 	void NightVisionOn();
 	void NightVisionOff();
 
-	
-	
-
+	void Aiming();
+	void StopAiming();
 };

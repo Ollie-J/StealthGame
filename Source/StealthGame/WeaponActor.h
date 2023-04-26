@@ -19,10 +19,18 @@ public:
 	class USkeletalMeshComponent* Weapon;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attachments")
-		class USkeletalMeshComponent* Attachment01;
+		class UStaticMeshComponent* Attachment01;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Attachments")
-		class USkeletalMeshComponent* Attachment02;
+	UPROPERTY(VisibleDefaultsOnly, Category = "Mesh")
+		USceneComponent* Muzzle;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement")
+		bool bInCombat;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon Properties")
+		bool bIsGun;
+
+	
 
 protected:
 	// Called when the game starts or when spawned

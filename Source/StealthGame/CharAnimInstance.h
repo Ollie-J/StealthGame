@@ -37,6 +37,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Movement")
 		bool isCrouching;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Jumping")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Movement")
 		bool bInCombat;
 };

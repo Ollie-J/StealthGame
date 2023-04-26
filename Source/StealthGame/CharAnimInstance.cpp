@@ -3,6 +3,7 @@
 
 #include "CharAnimInstance.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "WeaponActor.h"
 #include "StealthCharacter.h"
 
 
@@ -37,6 +38,8 @@ void UCharAnimInstance::UUpdateAnimation()
 		FVector Speed = Pawn->GetVelocity();
 		FVector lateralSpeed = FVector(Speed.X, Speed.Y, 0.0f); // Z for jump
 		MovementSpeed = lateralSpeed.Size();
+
+		
 	}
 }
 

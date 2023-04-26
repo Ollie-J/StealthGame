@@ -6,6 +6,8 @@
 #include "Camera/CameraComponent.h"
 #include "Components/InputComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Engine/SkeletalMeshSocket.h" //
+#include "CharAnimInstance.h"
 #include "Door.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "DrawDebugHelpers.h"
@@ -20,6 +22,7 @@ AStealthCharacter::AStealthCharacter()
 	SprintSpeedMultiplier = 2.0f;
 	TurnRate = 45.0f;
 	LookUpRate = 45.0f;
+	bIsAiming = false;
 
 	// SETTING PROPERTIES WITHIN THE CHAR MOVEMENT // 
 	GetCharacterMovement()->bOrientRotationToMovement = true;
@@ -42,7 +45,16 @@ AStealthCharacter::AStealthCharacter()
 	TPCamera->SetupAttachment(CameraArm, USpringArmComponent::SocketName);
 	TPCamera->bUsePawnControlRotation = false;
 
-	 
+	Pistol = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Pistol"));
+	Pistol->SetupAttachment(RootComponent);
+	Pistol->CastShadow = false;
+
+	Muzzle = CreateDefaultSubobject<USceneComponent>(TEXT("Muzzle"));
+	Muzzle->SetupAttachment(Pistol);
+	
+	
+	
+
 	
 	
 	
@@ -54,7 +66,8 @@ void AStealthCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
-
+	Pistol->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("PistolSocket"));
+	
 }
 
 // Called every frame
@@ -88,7 +101,10 @@ void AStealthCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	PlayerInputComponent->BindAction("Sprinting", IE_Pressed, this, &AStealthCharacter::Sprinting);
 	PlayerInputComponent->BindAction("Sprinting", IE_Released, this, &AStealthCharacter::StopSprinting);
 	PlayerInputComponent->BindAction("OpeningDoor", IE_Pressed, this, &AStealthCharacter::OnAction);
-
+	
+	PlayerInputComponent->BindAction("Aim", IE_Pressed, this, &AStealthCharacter::Aiming);
+	PlayerInputComponent->BindAction("Aim", IE_Released, this, &AStealthCharacter::StopAiming);
+	
 	
 }
 
@@ -191,6 +207,8 @@ void AStealthCharacter::NightVisionOff()
 	return;
 }
 
+
+
 void AStealthCharacter::CanCrouch()
 {
 	if (bIsCrouched) {
@@ -228,3 +246,18 @@ void AStealthCharacter::OnAction()
 	}
 }
 	
+void AStealthCharacter::Aiming() {
+
+	if (!GetMesh()) return;
+	UCharAnimInstance* Combat = Cast<UCharAnimInstance>(GetMesh()->GetAnimInstance());
+	if (!Combat) return;
+	Combat->bInCombat = true;
+
+}
+
+void AStealthCharacter::StopAiming() {
+	if (!GetMesh()) return;
+	UCharAnimInstance* Combat = Cast<UCharAnimInstance>(GetMesh()->GetAnimInstance());
+	if (!Combat) return;
+	Combat->bInCombat = false;
+}
