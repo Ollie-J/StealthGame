@@ -3,6 +3,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "CharAnimInstance.h"
+#include "Components/SpotLightComponent.h"
 #include "Door.h"
 #include "UObject/UObjectBase.h"
 #include "StealthCharacter.generated.h"
@@ -15,11 +16,13 @@ class STEALTHGAME_API AStealthCharacter : public ACharacter
 		
 
 public:
-	
 	AStealthCharacter();
 
+	/*
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Laser")
 		class USpotLightComponent* LaserPointer;
+	*/
+	
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pistol")
 		USkeletalMeshComponent* Pistol;
@@ -27,12 +30,16 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pistol")
 		USceneComponent* Muzzle;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SpotLight")
+		class USpotLightComponent* Flashlight;
+
 	//Third Person Camera //
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera", meta = (AllowPrivateAccess = true))
 		class USpringArmComponent* CameraArm;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Camera", meta = (AllowPrivateAccess = true))
 		class UCameraComponent* TPCamera;
+
 
 	// Character Movement //
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player Movement")
@@ -60,6 +67,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "aiming")
 		bool bIsAiming;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "aiming")
+		bool bIsFlashLightOn;
 	
 
 	
@@ -70,6 +80,7 @@ protected:
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
@@ -99,4 +110,9 @@ public:
 	void StopAiming();
 	void Fire();
 	void StopFire();
+
+	//Flashlight
+	void FlashLight();
+	void FlashLightOn();
+	void FlashLightOff();
 };

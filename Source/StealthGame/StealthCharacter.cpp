@@ -19,6 +19,7 @@ AStealthCharacter::AStealthCharacter()
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationRoll = false;
 	bNVOn = false;
+	bIsFlashLightOn = false;
 	Speed = 300.0f;
 	SprintSpeedMultiplier = 2.0f;
 	TurnRate = 45.0f;
@@ -53,6 +54,12 @@ AStealthCharacter::AStealthCharacter()
 	Muzzle = CreateDefaultSubobject<USceneComponent>(TEXT("Muzzle"));
 	Muzzle->SetupAttachment(Pistol);
 	
+	Flashlight = CreateDefaultSubobject<USpotLightComponent>(TEXT("SpotLightComp"));
+	Flashlight->SetupAttachment(RootComponent);
+
+	//IF IMPLEMENTED THE LASER FALLS TO THE GROUND 
+	//HAD TO IMPLEMENT THIS IN BP TO MAKE IT WORK
+	/*
 	LaserPointer = CreateDefaultSubobject<USpotLightComponent>(TEXT("Laser"));
 	LaserPointer->Intensity = 100000.0f;
 	LaserPointer->AttenuationRadius = 1205.676636f;
@@ -61,11 +68,8 @@ AStealthCharacter::AStealthCharacter()
 	LaserPointer->SourceRadius = 0.0f;
 	LaserPointer->SoftSourceRadius = 0.0f;
 	LaserPointer->SourceLength = 1.0f;
-	//LaserPointer->SetupAttachment(Pistol);
-
-	
-	
-	
+	LaserPointer->SetupAttachment(Pistol);
+	*/
 
 }
 
@@ -73,9 +77,9 @@ AStealthCharacter::AStealthCharacter()
 void AStealthCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	Flashlight->SetVisibility(false, false);
 	Pistol->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("PistolSocket"));
-	
+	//Flashlight->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("FlashLightSocket"));
 }
 
 // Called every frame
@@ -109,11 +113,14 @@ void AStealthCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	PlayerInputComponent->BindAction("Sprinting", IE_Pressed, this, &AStealthCharacter::Sprinting);
 	PlayerInputComponent->BindAction("Sprinting", IE_Released, this, &AStealthCharacter::StopSprinting);
 	PlayerInputComponent->BindAction("OpeningDoor", IE_Pressed, this, &AStealthCharacter::OnAction);
+	PlayerInputComponent->BindAction("FlashLight", IE_Pressed, this, &AStealthCharacter::FlashLight);
 	
+	//Weapon Inputs
 	PlayerInputComponent->BindAction("Aim", IE_Pressed, this, &AStealthCharacter::Aiming);
 	PlayerInputComponent->BindAction("Aim", IE_Released, this, &AStealthCharacter::StopAiming);
 	PlayerInputComponent->BindAction("Shoot", IE_Pressed, this, &AStealthCharacter::Fire);
 	PlayerInputComponent->BindAction("Shoot", IE_Released, this, &AStealthCharacter::StopFire);
+
 }
 
 void AStealthCharacter::MoveF(float Value)
@@ -284,3 +291,36 @@ void AStealthCharacter::StopFire() {
 	if (!FireAnim) return;
 	FireAnim->bisAttack = false;
 }
+
+void AStealthCharacter::FlashLight()
+{
+	if (bIsFlashLightOn) {
+		FlashLightOff();
+		Flashlight->SetVisibility(false, false);
+	}
+	else
+	{
+		FlashLightOn();
+		Flashlight->SetVisibility(true, false);
+	}
+}
+
+void AStealthCharacter::FlashLightOn()
+{
+	bIsFlashLightOn = true;
+	Flashlight->SetVisibility(true, false);
+	Flashlight->Intensity = 100000.0f;
+	Flashlight->SourceLength = 1.0f;
+	return;
+}
+
+void AStealthCharacter::FlashLightOff()
+{
+	bIsFlashLightOn = false;
+	Flashlight->SetVisibility(false, false);
+	Flashlight->Intensity = 0.0f;
+	Flashlight->SourceLength = 0.0f;
+	return;
+}
+
+
