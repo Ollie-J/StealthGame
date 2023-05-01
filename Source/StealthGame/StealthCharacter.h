@@ -5,6 +5,7 @@
 #include "CharAnimInstance.h"
 #include "Components/SpotLightComponent.h"
 #include "Door.h"
+#include "Projectile.h"
 #include "UObject/UObjectBase.h"
 #include "StealthCharacter.generated.h"
 
@@ -22,13 +23,14 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Laser")
 		class USpotLightComponent* LaserPointer;
 	*/
-	
+	UPROPERTY(EditAnywhere, Category = "Proj")
+		TSubclassOf<class AProjectile> ProjectileClass;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pistol")
 		USkeletalMeshComponent* Pistol;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pistol")
-		USceneComponent* Muzzle;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Muzzle")
+		FVector Muzzle;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SpotLight")
 		class USpotLightComponent* Flashlight;
@@ -71,8 +73,10 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "aiming")
 		bool bIsFlashLightOn;
 	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
+		float Health;
 
-	
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -108,11 +112,15 @@ public:
 	//Weapon
 	void Aiming();
 	void StopAiming();
+
+	UFUNCTION()
 	void Fire();
-	void StopFire();
+	
 
 	//Flashlight
 	void FlashLight();
 	void FlashLightOn();
 	void FlashLightOff();
+
+	
 };

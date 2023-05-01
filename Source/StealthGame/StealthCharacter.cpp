@@ -15,6 +15,7 @@
 
 AStealthCharacter::AStealthCharacter()
 {
+	Health = 100.0f;
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationRoll = false;
@@ -50,9 +51,6 @@ AStealthCharacter::AStealthCharacter()
 	Pistol = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Pistol"));
 	Pistol->SetupAttachment(RootComponent);
 	Pistol->CastShadow = false;
-
-	Muzzle = CreateDefaultSubobject<USceneComponent>(TEXT("Muzzle"));
-	Muzzle->SetupAttachment(Pistol);
 	
 	Flashlight = CreateDefaultSubobject<USpotLightComponent>(TEXT("SpotLightComp"));
 	Flashlight->SetupAttachment(RootComponent);
@@ -80,6 +78,7 @@ void AStealthCharacter::BeginPlay()
 	Flashlight->SetVisibility(false, false);
 	Pistol->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("PistolSocket"));
 	//Flashlight->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("FlashLightSocket"));
+	
 }
 
 // Called every frame
@@ -119,7 +118,7 @@ void AStealthCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 	PlayerInputComponent->BindAction("Aim", IE_Pressed, this, &AStealthCharacter::Aiming);
 	PlayerInputComponent->BindAction("Aim", IE_Released, this, &AStealthCharacter::StopAiming);
 	PlayerInputComponent->BindAction("Shoot", IE_Pressed, this, &AStealthCharacter::Fire);
-	PlayerInputComponent->BindAction("Shoot", IE_Released, this, &AStealthCharacter::StopFire);
+	
 
 }
 
@@ -279,18 +278,32 @@ void AStealthCharacter::StopAiming() {
 }
 
 void AStealthCharacter::Fire() {
-	if (!GetMesh()) return;
-	UCharAnimInstance* FireAnim = Cast<UCharAnimInstance>(GetMesh()->GetAnimInstance());
-	if (!FireAnim) return;
-	FireAnim->bisAttack = true;
+	UE_LOG(LogTemp, Warning, TEXT("SHOOTING"));
+
+	if (ProjectileClass) {
+		FActorSpawnParameters SpawnParams;
+		// Collison Spawn params, Always spawns bullet no matter what
+		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+		// Set no fail so it has to spawn, spawning cannot fail
+		SpawnParams.bNoFail = true;
+		// Setting owner 
+		SpawnParams.Owner = this;
+		// the instigator is the actor that caused the damage, i.e. the person that shot the bullet.
+		SpawnParams.Instigator = this;
+
+		
+
+			
+
+		// Spawn Projectile from character view.
+		FVector CamLoc = TPCamera->GetForwardVector();
+		FRotator CamRot = GetActorRotation();
+		GetActorEyesViewPoint(CamLoc, CamRot);
+		GetWorld()->SpawnActor<AProjectile>(ProjectileClass, CamLoc, CamRot, SpawnParams);
+	}
 }
 
-void AStealthCharacter::StopFire() {
-	if (!GetMesh()) return;
-	UCharAnimInstance* FireAnim = Cast<UCharAnimInstance>(GetMesh()->GetAnimInstance());
-	if (!FireAnim) return;
-	FireAnim->bisAttack = false;
-}
+
 
 void AStealthCharacter::FlashLight()
 {

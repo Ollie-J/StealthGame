@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Components/BoxComponent.h"
 #include "AICharacter.generated.h"
 
 UCLASS()
@@ -23,13 +24,28 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AIMovementSpeed", meta = (ExposeOnSpawn = "true"))
 		float PatrolSpeed;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
+		float Health;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
+		float MaxHealth;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Rifle")
+		USkeletalMeshComponent* Rifle;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CollisionComp")
+		UBoxComponent* BCollision;
 
 protected:
-
+		//virtual void BeginPlay() override;
 		
 public:
 
 	UFUNCTION(BlueprintCallable)
 		void UpdateWalkSpeed(float NewWalkSpeed);
+
+	UFUNCTION(BlueprintCallable)
+	void TakeDamage(float _DamageAmount);
 
 };
