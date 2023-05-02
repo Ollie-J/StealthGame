@@ -6,6 +6,8 @@
 #include "Components/SpotLightComponent.h"
 #include "Door.h"
 #include "Projectile.h"
+#include "Sound/SoundCue.h"
+#include "Components/AudioComponent.h"
 #include "UObject/UObjectBase.h"
 #include "StealthCharacter.generated.h"
 
@@ -23,6 +25,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Laser")
 		class USpotLightComponent* LaserPointer;
 	*/
+	UPROPERTY(EditAnywhere, Category = "SoundCue")
+		USoundCue* PistolSoundCue;
+	UPROPERTY(EditAnywhere, Category = "AudioComp")
+		UAudioComponent* PistolAudioComp;
+
 	UPROPERTY(EditAnywhere, Category = "Proj")
 		TSubclassOf<class AProjectile> ProjectileClass;
 
@@ -76,6 +83,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
 		float Health;
 
+
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AudioComp")
 
 protected:
 	// Called when the game starts or when spawned

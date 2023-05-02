@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "Components/BoxComponent.h"
 #include "AICharacter.generated.h"
 
 UCLASS()
@@ -15,6 +14,10 @@ class STEALTHGAME_API AAICharacter : public ACharacter
 public:
 	
 	AAICharacter();
+
+	//void WhenHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+
+	//virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AIMovementSpeed", meta = (ExposeOnSpawn = "true"))
 		float DefaultSpeed;
@@ -34,18 +37,14 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Rifle")
 		USkeletalMeshComponent* Rifle;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "CollisionComp")
-		UBoxComponent* BCollision;
 
 protected:
-		//virtual void BeginPlay() override;
+		
 		
 public:
 
 	UFUNCTION(BlueprintCallable)
 		void UpdateWalkSpeed(float NewWalkSpeed);
 
-	UFUNCTION(BlueprintCallable)
-	void TakeDamage(float _DamageAmount);
 
 };

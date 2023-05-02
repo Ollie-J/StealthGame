@@ -26,6 +26,8 @@ AProjectile::AProjectile()
 	ProjMoveComp->MaxSpeed = 3000.0f;
 	ProjMoveComp->bRotationFollowsVelocity = true;
 	ProjMoveComp->ProjectileGravityScale = 0.0f;
+	ProjMoveComp->bShouldBounce = true;
+	
 
 	ProjMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("MeshComp"));
 	static ConstructorHelpers::FObjectFinder<UStaticMesh>Mesh(TEXT("StaticMesh'/Game/Assets/Bullet.Bullet'"));
@@ -56,6 +58,11 @@ void AProjectile::Tick(float DeltaTime)
 void AProjectile::FireDirec(const FVector& ShootDirec)
 {
 	ProjMoveComp->Velocity = ShootDirec * ProjMoveComp->InitialSpeed;
+}
+
+void AProjectile::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	Destroy();
 }
 
 

@@ -55,6 +55,13 @@ AStealthCharacter::AStealthCharacter()
 	Flashlight = CreateDefaultSubobject<USpotLightComponent>(TEXT("SpotLightComp"));
 	Flashlight->SetupAttachment(RootComponent);
 
+	static ConstructorHelpers::FObjectFinder<USoundCue>PistolCue(TEXT("SoundCue'/Game/Assets/Pistol.Pistol'"));
+	PistolSoundCue = PistolCue.Object;
+	PistolAudioComp = CreateDefaultSubobject<UAudioComponent>(TEXT("PistolAudioCompoent"));
+	PistolAudioComp->bAutoActivate = false;
+	PistolAudioComp->SetRelativeLocation(FVector(100.0f, 0.0f, 0.0f));
+
+
 	//IF IMPLEMENTED THE LASER FALLS TO THE GROUND 
 	//HAD TO IMPLEMENT THIS IN BP TO MAKE IT WORK
 	/*
@@ -68,6 +75,7 @@ AStealthCharacter::AStealthCharacter()
 	LaserPointer->SourceLength = 1.0f;
 	LaserPointer->SetupAttachment(Pistol);
 	*/
+
 
 }
 
@@ -291,15 +299,19 @@ void AStealthCharacter::Fire() {
 		// the instigator is the actor that caused the damage, i.e. the person that shot the bullet.
 		SpawnParams.Instigator = this;
 
-		
-
-			
 
 		// Spawn Projectile from character view.
 		FVector CamLoc = TPCamera->GetForwardVector();
 		FRotator CamRot = GetActorRotation();
 		GetActorEyesViewPoint(CamLoc, CamRot);
 		GetWorld()->SpawnActor<AProjectile>(ProjectileClass, CamLoc, CamRot, SpawnParams);
+
+		//AUDIO
+		if (PistolAudioComp->IsValidLowLevelFast()) {
+			PistolAudioComp->SetSound(PistolSoundCue);
+		}
+		PistolAudioComp->Play();
+		
 	}
 }
 
