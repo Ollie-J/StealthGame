@@ -81,10 +81,10 @@ public:
 		bool bIsFlashLightOn;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
-		float Health;
+		float PlayerHealth;
 
-
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AudioComp")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
+		float PlayerMaxHealth;
 
 protected:
 	// Called when the game starts or when spawned

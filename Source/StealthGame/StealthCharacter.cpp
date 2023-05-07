@@ -15,7 +15,8 @@
 
 AStealthCharacter::AStealthCharacter()
 {
-	Health = 100.0f;
+	PlayerHealth = 100.0f;
+	PlayerMaxHealth = 100.0f;
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationRoll = false;
@@ -85,6 +86,8 @@ void AStealthCharacter::BeginPlay()
 	Super::BeginPlay();
 	Flashlight->SetVisibility(false, false);
 	Pistol->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("PistolSocket"));
+	PlayerMaxHealth = PlayerHealth;
+	//Created a engine crash
 	//Flashlight->AttachToComponent(GetMesh(), FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("FlashLightSocket"));
 	
 }
